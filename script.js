@@ -98,6 +98,11 @@
   }
 
   var CATEGORY_LABEL = { website: "Website", mobile: "Mobil ilova", bot: "Telegram bot" };
+  var PROJECT_PREVIEWS = {
+    fermi: "/projects/fermi-home.jpg",
+    fermiclinic: "/projects/fermiclinic-home.jpg",
+    testkorea: "/projects/testkorea-bot.jpg"
+  };
 
   function escapeHtml(str){
     return String(str).replace(/[&<>"']/g, function(c){
@@ -122,6 +127,7 @@
     grid.innerHTML = filtered.map(function(p, i){
       var host;
       try{ host = new URL(p.url).hostname.replace(/^www\./,""); }catch(e){ host = p.url; }
+      var previewImage = p.image || PROJECT_PREVIEWS[p.id] || "";
       var featured = i === 0 && filtered.length > 1;
       var statusLabel = p.status === "dev" ? "Ishlab chiqilmoqda" : "Faol";
       return '' +
@@ -130,7 +136,10 @@
             '<div class="pp-window">' +
               '<div class="pp-bar"><span></span><span></span><span></span></div>' +
               '<div class="pp-shot pp-shot--' + escapeHtml(p.category) + '">' +
-                '<div class="pp-ui" aria-hidden="true"><span class="pp-ui-row"></span><span class="pp-ui-row"></span></div>' +
+                (previewImage ?
+                  '<img class="pp-image" src="' + escapeHtml(previewImage) + '" alt="' + escapeHtml(p.name) + ' bosh sahifasi" loading="lazy" decoding="async">' +
+                  '<span class="pp-preview-label"><i></i>Live preview</span>' :
+                  '<div class="pp-ui" aria-hidden="true"><span class="pp-ui-row"></span><span class="pp-ui-row"></span></div>') +
                 '<span class="pp-host mono">' + escapeHtml(host) + '</span>' +
               '</div>' +
             '</div>' +
