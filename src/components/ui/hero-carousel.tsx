@@ -34,7 +34,7 @@ export interface HeroCarouselProps {
 }
 
 const CARD_H = 0.264;
-const CARD_AR = 1.18;
+const CARD_AR = 0.75;
 const GAP = 0.038;
 const STRIP_TOP = 0.5;
 const TITLE = 0.067;

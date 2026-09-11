@@ -535,7 +535,7 @@
     document.addEventListener("click", function(e){
       if(navRight.classList.contains("open") && !navRight.contains(e.target) && !navToggle.contains(e.target)) closeMenu();
     });
-    window.addEventListener("resize", function(){ if(window.innerWidth > 820) closeMenu(); });
+    window.addEventListener("resize", function(){ if(window.innerWidth > 1020) closeMenu(); });
   }
 
   /* pointer-led depth on capable devices; kept deliberately subtle */

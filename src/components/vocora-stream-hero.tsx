@@ -1,28 +1,62 @@
 import { ImageStreamHero } from "@/components/ui/image-stream-hero";
 
-const portfolioImages = [
+const imageStreamCdn = "https://pub-940ccf6255b54fa799a9b01050e6c227.r2.dev";
+
+const showcaseImages = [
   {
-    src: "/projects/anivoai-home.jpg",
-    alt: "AnivoAI sun'iy intellekt platformasi",
+    src: `${imageStreamCdn}/stock-images/767d99bb371a54d0d36751e8cecae43c.jpg`,
+    alt: "Quyosh botishidagi dengiz manzarasi bilan uyg'unlashgan siluet",
   },
   {
-    src: "/projects/fermiclinic-home.jpg",
-    alt: "FermiClinic tibbiyot platformasi",
+    src: `${imageStreamCdn}/gradients/hero_gradient/hero-gradients-01.png`,
+    alt: "Yumshoq ko'p rangli gradient",
   },
   {
-    src: "/projects/testkorea-bot.jpg",
-    alt: "Test Korea Telegram bot loyihasi",
+    src: `${imageStreamCdn}/stock-images/821d815affa6496c39cbdeeec7a84603.jpg`,
+    alt: "Shahar manzarasi bilan uyg'unlashgan portret",
   },
   {
-    src: "/projects/fermi-home.jpg",
-    alt: "Fermi korporativ veb-sayti",
+    src: `${imageStreamCdn}/gradients/crimson_aura/crimson-aura-02.png`,
+    alt: "Crimson aura gradienti",
+  },
+  {
+    src: `${imageStreamCdn}/stock-images/937438c560ada1c83317f2c11b3454b0.jpg`,
+    alt: "To'q sariq fondagi harakatli portret",
+  },
+  {
+    src: `${imageStreamCdn}/gradients/hue-flow/hue-flow-01.png`,
+    alt: "Oqimli rang gradienti",
+  },
+  {
+    src: `${imageStreamCdn}/stock-images/98f89cb9994f5c382ab964062c4039db.jpg`,
+    alt: "Rangli bulutga aylanayotgan sportchi silueti",
+  },
+  {
+    src: `${imageStreamCdn}/gradients/moon/moon-grade-03.png`,
+    alt: "Oy ranglaridagi gradient",
+  },
+  {
+    src: `${imageStreamCdn}/stock-images/ddcbee38be8b7274e19e132d7ab35b53.jpg`,
+    alt: "Rangli qush kompozitsiyasi bilan qo'l harakati",
+  },
+  {
+    src: `${imageStreamCdn}/gradients/hero_gradient/hero-gradients-03.png`,
+    alt: "Qatlamli hero gradienti",
+  },
+  {
+    src: `${imageStreamCdn}/gradients/hue-flow/hue-flow-02.png`,
+    alt: "Ikkinchi oqimli rang gradienti",
+  },
+  {
+    src: `${imageStreamCdn}/gradients/moon/moon-grade-05.png`,
+    alt: "Chuqur oy ranglaridagi gradient",
   },
 ];
 
 export function VocoraStreamHero() {
   return (
     <ImageStreamHero
-      images={portfolioImages}
+      images={showcaseImages}
       cards={10}
       speed={24}
       axis={61}
