@@ -281,7 +281,7 @@ function ServicesPage() {
       <header className="services-nav">
         <a className="services-brand" href="/"><span />Vocora <small>services</small></a>
         <nav aria-label="Sahifa navigatsiyasi">
-          <a href="/prices.html">Narxlar</a>
+          <a href="/prices">Narxlar</a>
           <a className="services-back" href="/">Portfolio <span>↗</span></a>
         </nav>
       </header>

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /liquid
+
+Sitemap: https://vocora-team.uz/sitemap.xml

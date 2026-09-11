@@ -39,6 +39,14 @@
 
   var DEFAULT_PROJECTS = [
     {
+      id: "anivoai",
+      name: "Anivoai.uz",
+      category: "website",
+      url: "https://anivoai.uz",
+      status: "live",
+      desc: "Sun'iy intellekt va aqlli kameralar yordamida sigirlar salomatligini kuzatuvchi platforma — kasallikni erta aniqlaydi va ferma samaradorligini oshiradi."
+    },
+    {
       id: "fermi",
       name: "Fermi.uz",
       category: "website",
@@ -69,7 +77,15 @@
   function loadProjects(){
     try{
       var raw = localStorage.getItem(LS_PROJECTS);
-      if(raw) return JSON.parse(raw);
+      if(raw){
+        var stored = JSON.parse(raw);
+        // Saqlangan ro'yxatda yo'q yangi standart loyihalarni qo'shamiz,
+        // admin panelda kiritilgan o'zgarishlarni yo'qotmagan holda.
+        var seen = {};
+        stored.forEach(function(p){ if(p && p.id) seen[p.id] = true; });
+        var added = DEFAULT_PROJECTS.filter(function(p){ return !seen[p.id]; });
+        return added.length ? added.concat(stored) : stored;
+      }
     }catch(e){}
     return DEFAULT_PROJECTS.slice();
   }
@@ -99,6 +115,7 @@
 
   var CATEGORY_LABEL = { website: "Website", mobile: "Mobil ilova", bot: "Telegram bot" };
   var PROJECT_PREVIEWS = {
+    anivoai: "/projects/anivoai-home.jpg",
     fermi: "/projects/fermi-home.jpg",
     fermiclinic: "/projects/fermiclinic-home.jpg",
     testkorea: "/projects/testkorea-bot.jpg"
