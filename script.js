@@ -25,10 +25,10 @@
     requestAnimationFrame(function(){
       requestAnimationFrame(function(){ el.classList.add("in"); });
     });
-    setTimeout(function(){ el.classList.remove("in"); el.classList.add("out"); }, 1500);
-    setTimeout(function(){ el.classList.add("hide"); reveal(); }, 2050);
-    setTimeout(function(){ el.classList.add("done"); }, 2600);
-    window.addEventListener("load", function(){ setTimeout(reveal, 2800); });
+    setTimeout(function(){ el.classList.remove("in"); el.classList.add("out"); }, 1050);
+    setTimeout(function(){ el.classList.add("hide"); reveal(); }, 1500);
+    setTimeout(function(){ el.classList.add("done"); }, 1900);
+    window.addEventListener("load", function(){ setTimeout(reveal, 2200); });
   })();
 
   var ADMIN_PASSWORD = "fermi2024";
@@ -107,6 +107,10 @@
 
   var currentFilter = "all";
 
+  function prefersReducedMotion(){
+    try{ return window.matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){ return false; }
+  }
+
   function renderProjects(){
     var list = loadProjects();
     var grid = document.getElementById("projectsGrid");
@@ -142,6 +146,15 @@
           '</div>' +
         '</article>';
     }).join("");
+
+    if(grid.classList.contains("in") && !prefersReducedMotion() && Element.prototype.animate){
+      Array.prototype.forEach.call(grid.querySelectorAll(".proj-card"), function(card, i){
+        card.animate([
+          { opacity: 0, transform: "translateY(16px) scale(.985)" },
+          { opacity: 1, transform: "translateY(0) scale(1)" }
+        ], { duration: 520, delay: i * 70, easing: "cubic-bezier(.16,1,.3,1)", fill: "both" });
+      });
+    }
   }
 
   document.getElementById("filterRow").addEventListener("click", function(e){
@@ -182,6 +195,7 @@
     saveMessages(list);
     document.getElementById("cfToast").textContent = "Xabaringiz uchun rahmat! Tez orada bog'lanaman.";
     form.reset();
+    setTimeout(function(){ document.getElementById("cfToast").textContent = ""; }, 4500);
   });
 
   document.getElementById("year").textContent = new Date().getFullYear();
@@ -402,12 +416,79 @@
 
   /* ---------- UI polish: header, mobile nav, scrollspy, reveal ---------- */
   var header = document.getElementById("siteHeader");
+  var scrollProgress = document.getElementById("scrollProgress");
   var navToggle = document.getElementById("navToggle");
   var navRight = document.getElementById("navRight");
   var navAnchors = Array.prototype.slice.call(document.querySelectorAll(".nav-links a"));
 
+  /* anti-metal button treatment for native/static controls */
+  (function antiMetalButtons(){
+    var selector = ".btn, .nav-cta, .filter-btn, .tab-btn, .icon-btn";
+    var dots = [
+      [2,2,0],[5,5,.05],[8,8,.1],[5,11,.15],[2,14,.2],
+      [6,2,.05],[9,5,.1],[12,8,.15],[9,11,.2],[6,14,.25]
+    ];
+
+    function chevron(index){
+      var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("viewBox", "0 0 14 16");
+      svg.setAttribute("aria-hidden", "true");
+      svg.setAttribute("focusable", "false");
+      dots.forEach(function(point){
+        var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", point[0]);
+        circle.setAttribute("cy", point[1]);
+        circle.setAttribute("r", "1");
+        circle.style.animationDelay = (index * .12 + point[2]) + "s";
+        svg.appendChild(circle);
+      });
+      return svg;
+    }
+
+    function enhance(root){
+      var controls = [];
+      if(root.nodeType === 1 && root.matches && root.matches(selector)) controls.push(root);
+      if(root.querySelectorAll){
+        controls = controls.concat(Array.prototype.slice.call(root.querySelectorAll(selector)));
+      }
+      controls.forEach(function(control){
+        if(control.classList.contains("anti-metal") || control.matches(".theme-toggle, .nav-toggle")) return;
+
+        var label = document.createElement("span");
+        label.className = "anti-metal__label";
+        while(control.firstChild) label.appendChild(control.firstChild);
+
+        var sweep = document.createElement("span");
+        sweep.className = "anti-metal__sweep";
+        sweep.setAttribute("aria-hidden", "true");
+        for(var i = 0; i < 5; i++) sweep.appendChild(chevron(i));
+
+        control.classList.add("anti-metal");
+        control.appendChild(label);
+        control.appendChild(sweep);
+      });
+    }
+
+    enhance(document);
+    if("MutationObserver" in window){
+      var observer = new MutationObserver(function(records){
+        records.forEach(function(record){
+          Array.prototype.forEach.call(record.addedNodes, enhance);
+        });
+      });
+      observer.observe(document.body, { childList:true, subtree:true });
+    }
+  })();
+
   if(header){
-    var onScroll = function(){ header.classList.toggle("scrolled", window.scrollY > 8); };
+    var onScroll = function(){
+      header.classList.toggle("scrolled", window.scrollY > 8);
+      if(scrollProgress){
+        var available = document.documentElement.scrollHeight - window.innerHeight;
+        var percent = available > 0 ? Math.min(100, Math.max(0, window.scrollY / available * 100)) : 0;
+        scrollProgress.style.setProperty("--scroll-progress", percent.toFixed(2) + "%");
+      }
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
   }
@@ -424,8 +505,43 @@
     navRight.addEventListener("click", function(e){
       if(e.target.closest("a")) closeMenu();
     });
+    document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeMenu(); });
+    document.addEventListener("click", function(e){
+      if(navRight.classList.contains("open") && !navRight.contains(e.target) && !navToggle.contains(e.target)) closeMenu();
+    });
     window.addEventListener("resize", function(){ if(window.innerWidth > 820) closeMenu(); });
   }
+
+  /* pointer-led depth on capable devices; kept deliberately subtle */
+  (function tactileSurfaces(){
+    var finePointer = false;
+    try{ finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches; }catch(e){}
+    if(!finePointer || prefersReducedMotion()) return;
+
+    document.addEventListener("pointermove", function(e){
+      var card = e.target.closest && e.target.closest(".svc-card, .proj-card");
+      if(card){
+        var rect = card.getBoundingClientRect();
+        card.style.setProperty("--mouse-x", (e.clientX - rect.left) + "px");
+        card.style.setProperty("--mouse-y", (e.clientY - rect.top) + "px");
+      }
+    }, { passive: true });
+
+    var visual = document.querySelector(".hero-visual");
+    if(visual){
+      visual.addEventListener("pointermove", function(e){
+        var rect = visual.getBoundingClientRect();
+        var x = (e.clientX - rect.left) / rect.width - .5;
+        var y = (e.clientY - rect.top) / rect.height - .5;
+        visual.style.setProperty("--hero-rx", (-y * 2.6).toFixed(2) + "deg");
+        visual.style.setProperty("--hero-ry", (x * 3.6).toFixed(2) + "deg");
+      }, { passive: true });
+      visual.addEventListener("pointerleave", function(){
+        visual.style.setProperty("--hero-rx", "0deg");
+        visual.style.setProperty("--hero-ry", "0deg");
+      });
+    }
+  })();
 
   /* theme toggle (light / dark) */
   (function themeToggle(){
@@ -434,13 +550,19 @@
     var btn = document.getElementById("themeToggle");
     if(!btn) return;
     function current(){ return root.getAttribute("data-theme") === "light" ? "light" : "dark"; }
+    function syncBrowserChrome(){
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if(meta) meta.setAttribute("content", current() === "light" ? "#F7F2EA" : "#140E0A");
+    }
     btn.addEventListener("click", function(){
       var next = current() === "light" ? "dark" : "light";
       root.setAttribute("data-theme", next);
       btn.setAttribute("aria-pressed", next === "light" ? "true" : "false");
+      syncBrowserChrome();
       try{ localStorage.setItem(KEY, next); }catch(e){}
     });
     btn.setAttribute("aria-pressed", current() === "light" ? "true" : "false");
+    syncBrowserChrome();
   })();
 
   var sections = navAnchors

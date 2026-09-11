@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vocora team — Web, Mobil, Bot</title>
 <meta name="description" content="Website, mobil ilova va Telegram bot — g'oyadan ishga tushirilgan mahsulotgacha. Vocora team — digital studio.">
+<meta name="theme-color" content="#140E0A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -12,6 +14,9 @@
 <script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('jb_theme');if(!t&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches){t='light';}if(t==='light'||t==='dark'){d.setAttribute('data-theme',t);}}catch(e){}})();</script>
 </head>
 <body>
+
+<div id="kinetic-root" aria-hidden="true"></div>
+<a class="skip-link" href="#main-content">Asosiy tarkibga o'tish</a>
 
 <div id="intro" aria-hidden="true">
   <div class="intro-inner">
@@ -23,6 +28,7 @@
 
 <div id="public-view">
   <header class="site" id="siteHeader">
+    <span class="scroll-progress" id="scrollProgress" aria-hidden="true"></span>
     <nav class="nav">
       <a class="brand" href="#top"><span class="dot"></span>Vocora<span class="mono" style="color:var(--ink-mute)">&nbsp;team</span></a>
       <button class="nav-toggle" id="navToggle" aria-label="Menyu" aria-expanded="false"><span></span></button>
@@ -42,7 +48,7 @@
     </nav>
   </header>
 
-  <div class="wrap">
+  <main class="wrap" id="main-content">
     <section class="hero" id="top">
       <div class="hero-copy">
         <span class="eyebrow"><span class="eyebrow-dot"></span>Developer / Digital studio</span>
@@ -57,6 +63,11 @@
           <li><span class="hs-ico">&#9634;</span>Mobil</li>
           <li><span class="hs-ico">&#9672;</span>Telegram</li>
         </ul>
+        <div class="hero-proof" aria-label="Ishlash afzalliklari">
+          <div><strong>3</strong><span>asosiy yo'nalish</span></div>
+          <div><strong>&lt; 1 kun</strong><span>ichida javob</span></div>
+          <div><strong>End-to-end</strong><span>g'oyadan launchgacha</span></div>
+        </div>
       </div>
       <div class="hero-visual" aria-hidden="true">
         <div class="hv-grid"></div>
@@ -202,8 +213,10 @@
         <button class="filter-btn" data-filter="mobile" aria-pressed="false">Mobil ilova</button>
         <button class="filter-btn" data-filter="bot" aria-pressed="false">Telegram bot</button>
       </div>
-      <div class="projects-grid" id="projectsGrid"></div>
+      <div class="projects-grid reveal" id="projectsGrid" data-stagger></div>
     </section>
+
+    <div id="testimonials-root"></div>
 
     <section id="jarayon">
       <div class="section-head reveal">
@@ -260,7 +273,7 @@
         </div>
       </div>
     </section>
-  </div>
+  </main>
 
   <footer class="site">
     <div class="wrap">
@@ -336,6 +349,7 @@
   </div>
 </div>
 
-<script src="script.js"></script>
+<script type="module" src="/src/main.tsx"></script>
+<script type="module" src="/script.js"></script>
 </body>
 </html>
