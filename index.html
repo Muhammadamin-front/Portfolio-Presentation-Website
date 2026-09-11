@@ -110,50 +110,8 @@
   </header>
 
   <main class="wrap" id="main-content">
-    <section class="hero" id="top">
-      <div class="hero-copy">
-        <span class="eyebrow"><span class="eyebrow-dot"></span>Developer / Digital studio</span>
-        <h1>G'oyangizni <em>ishlaydigan</em> mahsulotga aylantiraman.</h1>
-        <p class="lead">Website, mobil ilova va Telegram bot yarataman — g'oyadan ishga tushirilgan mahsulotgacha. Har bir loyiha aniq maqsad va real natija uchun quriladi.</p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="#loyihalar">Loyihalarni ko'rish <span aria-hidden="true">→</span></a>
-          <a class="btn btn-ghost" href="#aloqa">Bog'lanish</a>
-        </div>
-        <ul class="hero-stack" aria-label="Yo'nalishlar">
-          <li><span class="hs-ico">&#9635;</span>Web</li>
-          <li><span class="hs-ico">&#9634;</span>Mobil</li>
-          <li><span class="hs-ico">&#9672;</span>Telegram</li>
-        </ul>
-        <div class="hero-proof" aria-label="Ishlash afzalliklari">
-          <div><strong>3</strong><span>asosiy yo'nalish</span></div>
-          <div><strong>&lt; 1 kun</strong><span>ichida javob</span></div>
-          <div><strong>End-to-end</strong><span>g'oyadan launchgacha</span></div>
-        </div>
-      </div>
-      <div class="hero-visual" aria-hidden="true">
-        <div class="hv-grid"></div>
-        <div class="hv-window">
-          <div class="hv-bar"><span></span><span></span><span></span><em>App.tsx</em></div>
-<pre class="hv-code"><code><span class="c-kw">export default function</span> <span class="c-fn">App</span>() {
-  <span class="c-kw">return</span> (
-    <span class="c-tag">&lt;Main&gt;</span>
-      <span class="c-tag">&lt;Hero</span> <span class="c-attr">title</span>=<span class="c-str">"G'oya"</span> <span class="c-tag">/&gt;</span>
-      <span class="c-tag">&lt;Product</span> <span class="c-attr">status</span>=<span class="c-str">"live"</span> <span class="c-tag">/&gt;</span>
-    <span class="c-tag">&lt;/Main&gt;</span>
-  );
-}</code></pre>
-        </div>
-        <div class="hv-card hv-card--deploy">
-          <span class="hv-card-label">deploy</span>
-          <strong>Production</strong>
-          <span class="hv-card-meta">build &#10003; 42s</span>
-        </div>
-        <div class="hv-card hv-card--stat">
-          <span class="hv-card-label">natija</span>
-          <strong>+120%</strong>
-          <span class="hv-card-meta">foydalanuvchi o'sishi</span>
-        </div>
-      </div>
+    <section class="hero hero-stream-section" id="top">
+      <div id="image-stream-root"></div>
     </section>
 
     <section id="xizmatlar">
@@ -161,7 +119,7 @@
         <div class="svc-head-row">
           <div class="svc-head-title">
             <span class="kicker">Xizmatlar</span>
-            <h2>Nima bilan <em>yordam</em> bera olaman</h2>
+            <h2>Nima bilan <em>yordam</em> bera olamiz</h2>
           </div>
           <ul class="svc-highlights">
             <li>Sifatli kod</li>
@@ -169,7 +127,7 @@
             <li>Natija</li>
           </ul>
         </div>
-        <p class="sub">Sizning g'oyangizga mos texnologiya va yondashuvni tanlayman — ortiqcha murakkabliksiz.</p>
+        <p class="sub">G'oyangizga mos texnologiya va yondashuvni tanlaymiz — ortiqcha murakkabliksiz.</p>
       </div>
 
       <div class="services-grid reveal" data-stagger>
@@ -193,7 +151,7 @@
             </div>
           </div>
           <h3>Website yaratish</h3>
-          <p>Korporativ sayt, landing page yoki web-ilovani noldan ishlab chiqaman. Tez, mobil qurilmalarga moslashgan, qidiruv tizimlari uchun optimallashtirilgan.</p>
+          <p>Korporativ sayt, landing page yoki web-ilovani noldan ishlab chiqamiz. Tez, mobil qurilmalarga moslashgan va qidiruv tizimlari uchun optimallashtirilgan.</p>
           <div class="tag-row">
             <span class="tag">React</span><span class="tag">Next.js</span><span class="tag">Node.js</span><span class="tag">Tailwind</span>
           </div>
@@ -265,9 +223,10 @@
     <section id="loyihalar">
       <div class="section-head reveal">
         <span class="kicker">Portfolio</span>
-        <h2>Loyihalarim</h2>
+        <h2>Loyihalarimiz</h2>
         <p class="sub">Ishga tushirilgan va real foydalanuvchilarga xizmat qilayotgan mahsulotlar.</p>
       </div>
+      <div id="project-carousel-root" class="reveal"></div>
       <div class="filter-row" id="filterRow">
         <button class="filter-btn" data-filter="all" aria-pressed="true">Barchasi</button>
         <button class="filter-btn" data-filter="website" aria-pressed="false">Website</button>
@@ -287,9 +246,9 @@
       </div>
       <div class="process-list reveal" data-stagger>
         <div class="step"><span class="num">01</span><h4>Talab</h4><p>G'oyangiz va maqsadingizni muhokama qilamiz.</p></div>
-        <div class="step"><span class="num">02</span><h4>Dizayn</h4><p>Interfeys va foydalanuvchi oqimini tayyorlayman.</p></div>
-        <div class="step"><span class="num">03</span><h4>Ishlab chiqish</h4><p>Mahsulotni bosqichma-bosqich quraman.</p></div>
-        <div class="step"><span class="num">04</span><h4>Yetkazish</h4><p>Test qilib, ishga tushiraman va qo'llab-quvvatlayman.</p></div>
+        <div class="step"><span class="num">02</span><h4>Dizayn</h4><p>Interfeys va foydalanuvchi oqimini tayyorlaymiz.</p></div>
+        <div class="step"><span class="num">03</span><h4>Ishlab chiqish</h4><p>Mahsulotni bosqichma-bosqich quramiz.</p></div>
+        <div class="step"><span class="num">04</span><h4>Yetkazish</h4><p>Test qilib, ishga tushiramiz va qo'llab-quvvatlaymiz.</p></div>
       </div>
     </section>
 
@@ -297,7 +256,7 @@
       <div class="section-head reveal">
         <span class="kicker">Aloqa</span>
         <h2>Keyingi loyihangizni birga boshlaymiz.</h2>
-        <p class="sub">Quyidagi forma orqali yozing yoki to'g'ridan-to'g'ri bog'laning — imkon qadar tezroq javob beraman.</p>
+        <p class="sub">Quyidagi forma orqali yozing yoki to'g'ridan-to'g'ri bog'laning — imkon qadar tezroq javob beramiz.</p>
       </div>
       <div class="contact-grid reveal">
         <div class="contact-card">
@@ -323,7 +282,7 @@
               <label for="cf-message">Xabar</label>
               <textarea id="cf-message" name="message" rows="3" required placeholder="Loyihangiz haqida qisqacha yozing"></textarea>
             </div>
-            <button class="btn btn-primary" type="submit" style="align-self:flex-start;">Yuborish</button>
+            <button class="btn btn-primary" type="submit" style="align-self:flex-start;">Telegram orqali yuborish</button>
             <div class="toast" id="cfToast" role="status"></div>
           </form>
         </div>
