@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive showcase — Vocora team</title>
+  <meta name="description" content="Vocora team yaratgan website, mobil ilova va Telegram bot loyihalarining interaktiv vitrinasini ko'ring.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#140E0A">
+  <link rel="canonical" href="https://vocora-team.uz/showcase">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="showcase-page">
+  <a class="skip-link" href="#showcase-main">Asosiy tarkibga o'tish</a>
+
+  <header class="site showcase-header">
+    <nav class="nav">
+      <a class="brand" href="/"><span class="dot"></span>Vocora<span class="mono showcase-brand-muted">&nbsp;team</span></a>
+      <div class="showcase-nav-actions">
+        <a href="#loyihalar">Loyihalar</a>
+        <a class="nav-cta" href="/">Asosiy sahifa <span aria-hidden="true">↖</span></a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="wrap showcase-main" id="showcase-main">
+    <section class="hero hero-stream-section" id="top">
+      <div id="image-stream-root"></div>
+    </section>
+
+    <section class="showcase-work-section" id="loyihalar">
+      <div class="showcase-section-head">
+        <span class="kicker">Interactive portfolio</span>
+        <h2>Real loyihalar. <em>Real natija.</em></h2>
+        <p>Har bir kartada Vocora team tomonidan ishlab chiqilgan mahsulotlardan biri ko'rsatilgan. Loyihalar orasida surish, scroll yoki klaviatura orqali harakatlaning.</p>
+      </div>
+      <div id="project-carousel-root"></div>
+    </section>
+
+    <section class="showcase-cta" aria-labelledby="showcase-cta-title">
+      <span class="kicker">Keyingi loyiha</span>
+      <h2 id="showcase-cta-title">Sizning g'oyangiz navbatdagi loyiha bo'lishi mumkin.</h2>
+      <p>Landing page, website, mobil ilova yoki Telegram bot bo'yicha vazifangizni qisqacha yozing.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://t.me/madamin0318" target="_blank" rel="noopener noreferrer">Telegramda yozish <span aria-hidden="true">↗</span></a>
+        <a class="btn btn-ghost" href="/#aloqa">Boshqa aloqa usullari</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site showcase-footer">
+    <div class="wrap foot-row foot-row--base">
+      <span>&copy; 2026 Vocora team</span>
+      <a href="/">vocora-team.uz</a>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/showcase-main.tsx"></script>
+</body>
+</html>

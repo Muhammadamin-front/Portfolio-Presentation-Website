@@ -11,6 +11,7 @@ export default defineConfig({
         prices: path.resolve(__dirname, "prices.html"),
         services: path.resolve(__dirname, "services.html"),
         liquid: path.resolve(__dirname, "liquid.html"),
+        showcase: path.resolve(__dirname, "showcase.html"),
       },
     },
   },

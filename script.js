@@ -219,21 +219,7 @@
     var list = loadMessages();
     list.unshift(msg);
     saveMessages(list);
-    var settings = loadSettings();
-    var serviceLabel = CATEGORY_LABEL[msg.service] || "Boshqa xizmat";
-    var telegramText =
-      "Assalomu alaykum, Vocora Team!\n\n" +
-      "Ism: " + msg.name + "\n" +
-      "Aloqa: " + msg.contact + "\n" +
-      "Xizmat: " + serviceLabel + "\n\n" +
-      msg.message;
-    var telegramUrl =
-      "https://t.me/" +
-      settings.telegram.replace(/^@/, "") +
-      "?text=" +
-      encodeURIComponent(telegramText);
-    document.getElementById("cfToast").textContent = "Telegram ochilmoqda — xabarni yuborishni tasdiqlang.";
-    window.open(telegramUrl, "_blank", "noopener,noreferrer");
+    document.getElementById("cfToast").textContent = "Xabaringiz uchun rahmat! Tez orada bog'lanaman.";
     form.reset();
     setTimeout(function(){ document.getElementById("cfToast").textContent = ""; }, 4500);
   });
