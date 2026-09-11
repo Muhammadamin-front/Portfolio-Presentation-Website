@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+.hero-text-roll {
+  display: inline-block;
+  white-space: nowrap;
+  color: var(--accent-soft);
+  font-style: normal;
+}
+
+.hero-text-roll > span > span {
+  color: var(--accent-soft);
+}
+
 @keyframes infinite-slider-vertical {
   to {
     transform: translateY(-50%);
