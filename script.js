@@ -47,6 +47,14 @@
       desc: "Sun'iy intellekt va aqlli kameralar yordamida sigirlar salomatligini kuzatuvchi platforma — kasallikni erta aniqlaydi va ferma samaradorligini oshiradi."
     },
     {
+      id: "molto-caldo",
+      name: "Molto Caldo",
+      category: "website",
+      url: "https://molto-caldo.vercel.app/",
+      status: "live",
+      desc: "Premium ustki kiyimlar katalogi — kolleksiyalar, lookbook, ko'p tilli interfeys va zamonaviy e-commerce tajribasiga ega fashion veb-sayt."
+    },
+    {
       id: "fermi",
       name: "Fermi.uz",
       category: "website",
@@ -116,6 +124,7 @@
   var CATEGORY_LABEL = { website: "Website", mobile: "Mobil ilova", bot: "Telegram bot" };
   var PROJECT_PREVIEWS = {
     anivoai: "/projects/anivoai-home.jpg",
+    "molto-caldo": "/projects/molto-caldo-home.jpg",
     fermi: "/projects/fermi-home.jpg",
     fermiclinic: "/projects/fermiclinic-home.jpg",
     testkorea: "/projects/testkorea-bot.jpg"

@@ -16,6 +16,8 @@ export type TextRollProps = {
   getExitDelay?: (index: number) => number;
   className?: string;
   transition?: Transition;
+  loop?: boolean;
+  loopDelay?: number;
   variants?: {
     enter: {
       initial: Target | VariantLabels | boolean;
@@ -36,6 +38,8 @@ export function TextRoll({
   getExitDelay = (index) => index * 0.1 + 0.2,
   className,
   transition = { ease: "easeIn" },
+  loop = false,
+  loopDelay = 1.6,
   variants,
   onAnimationComplete,
 }: TextRollProps) {
@@ -69,6 +73,13 @@ export function TextRoll({
               ...transition,
               duration: prefersReducedMotion ? 0 : duration,
               delay: prefersReducedMotion ? 0 : getEnterDelay(index),
+              ...(loop && !prefersReducedMotion
+                ? {
+                    repeat: Infinity,
+                    repeatType: "reverse" as const,
+                    repeatDelay: loopDelay,
+                  }
+                : {}),
             }}
           >
             {letter === " " ? "\u00A0" : letter}
@@ -81,6 +92,13 @@ export function TextRoll({
               ...transition,
               duration: prefersReducedMotion ? 0 : duration,
               delay: prefersReducedMotion ? 0 : getExitDelay(index),
+              ...(loop && !prefersReducedMotion
+                ? {
+                    repeat: Infinity,
+                    repeatType: "reverse" as const,
+                    repeatDelay: loopDelay,
+                  }
+                : {}),
             }}
             onAnimationComplete={
               letters.length === index + 1 ? onAnimationComplete : undefined

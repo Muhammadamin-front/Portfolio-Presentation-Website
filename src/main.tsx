@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import KineticGrid from "@/components/ui/kinetic-grid";
 import { TestimonialsSection } from "@/components/ui/testimonials-6";
-import { TextRoll } from "@/components/ui/text-roll";
+import { HeadingTextRolls } from "@/components/heading-text-rolls";
 import "./index.css";
 
 const mountNode = document.getElementById("kinetic-root");
@@ -25,12 +25,8 @@ if (testimonialsMountNode) {
   );
 }
 
-const textRollMountNode = document.getElementById("hero-text-roll");
+const headingRollMountNode = document.getElementById("heading-roll-effects");
 
-if (textRollMountNode) {
-  createRoot(textRollMountNode).render(
-    <StrictMode>
-      <TextRoll className="hero-text-roll">ishlaydigan</TextRoll>
-    </StrictMode>,
-  );
+if (headingRollMountNode) {
+  createRoot(headingRollMountNode).render(<HeadingTextRolls />);
 }
