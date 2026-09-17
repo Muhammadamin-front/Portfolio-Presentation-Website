@@ -39,6 +39,14 @@
 
   var DEFAULT_PROJECTS = [
     {
+      id: "3d-portfolio",
+      name: "3D Creator Portfolio",
+      category: "website",
+      url: "https://3-d-portfolio-eta-three.vercel.app/",
+      status: "live",
+      desc: "3D kreator uchun yaratilgan interaktiv portfolio — modeling, render, motion design va vizual loyihalarni premium animatsiyalar bilan namoyish etadi."
+    },
+    {
       id: "anivoai",
       name: "Anivoai.uz",
       category: "website",
@@ -123,6 +131,7 @@
 
   var CATEGORY_LABEL = { website: "Website", mobile: "Mobil ilova", bot: "Telegram bot" };
   var PROJECT_PREVIEWS = {
+    "3d-portfolio": "/projects/3d-portfolio-home.jpg",
     anivoai: "/projects/anivoai-home.jpg",
     "molto-caldo": "/projects/molto-caldo-home.jpg",
     fermi: "/projects/fermi-home.jpg",
