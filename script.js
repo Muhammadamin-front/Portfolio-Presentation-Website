@@ -106,7 +106,12 @@
     return DEFAULT_PROJECTS.slice();
   }
   function saveProjects(list){
-    try{ localStorage.setItem(LS_PROJECTS, JSON.stringify(list)); }catch(e){}
+    try{
+      localStorage.setItem(LS_PROJECTS, JSON.stringify(list));
+      return true;
+    }catch(e){
+      return false;
+    }
   }
   function loadMessages(){
     try{
@@ -162,7 +167,9 @@
     grid.innerHTML = filtered.map(function(p, i){
       var host;
       try{ host = new URL(p.url).hostname.replace(/^www\./,""); }catch(e){ host = p.url; }
-      var previewImage = p.image || PROJECT_PREVIEWS[p.id] || "";
+      var previewImage = Object.prototype.hasOwnProperty.call(p, "image")
+        ? p.image
+        : (PROJECT_PREVIEWS[p.id] || "");
       var featured = i === 0 && filtered.length > 1;
       var statusLabel = p.status === "dev" ? "Ishlab chiqilmoqda" : "Faol";
       return '' +
@@ -350,10 +357,49 @@
     openProjectForm(null);
   });
 
+  function prepareProjectImage(file){
+    return new Promise(function(resolve, reject){
+      if(!file || !file.type || file.type.indexOf("image/") !== 0){
+        reject(new Error("Faqat JPG, PNG yoki WebP rasm tanlang."));
+        return;
+      }
+      if(file.size > 12 * 1024 * 1024){
+        reject(new Error("Rasm hajmi 12 MB dan kichik bo'lishi kerak."));
+        return;
+      }
+
+      var reader = new FileReader();
+      reader.onerror = function(){ reject(new Error("Rasmni o'qib bo'lmadi.")); };
+      reader.onload = function(){
+        var image = new Image();
+        image.onerror = function(){ reject(new Error("Rasm formati qo'llab-quvvatlanmaydi.")); };
+        image.onload = function(){
+          var maxWidth = 1200;
+          var maxHeight = 900;
+          var scale = Math.min(1, maxWidth / image.width, maxHeight / image.height);
+          var width = Math.max(1, Math.round(image.width * scale));
+          var height = Math.max(1, Math.round(image.height * scale));
+          var canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+          var context = canvas.getContext("2d");
+          if(!context){ reject(new Error("Rasmni tayyorlab bo'lmadi.")); return; }
+          context.drawImage(image, 0, 0, width, height);
+          resolve(canvas.toDataURL("image/webp", .82));
+        };
+        image.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
   function openProjectForm(proj){
     var wrap = document.getElementById("projectFormWrap");
     var isEdit = !!proj;
     proj = proj || { id: "", name: "", category: "website", url: "", status: "live", desc: "" };
+    var projectImage = Object.prototype.hasOwnProperty.call(proj, "image")
+      ? proj.image
+      : (PROJECT_PREVIEWS[proj.id] || "");
     wrap.innerHTML = '' +
       '<div class="admin-form">' +
         '<div class="field"><label>Nomi</label><input id="pf-name" type="text" value="' + escapeHtml(proj.name) + '"></div>' +
@@ -372,13 +418,65 @@
           '</select>' +
         '</div>' +
         '<div class="field full"><label>Tavsif</label><textarea id="pf-desc" rows="2">' + escapeHtml(proj.desc) + '</textarea></div>' +
+        '<div class="field full">' +
+          '<label for="pf-image">Preview rasmi</label>' +
+          '<div class="admin-preview-picker">' +
+            '<div class="admin-preview-frame' + (projectImage ? '' : ' is-empty') + '" id="pf-image-preview">' +
+              '<img src="' + escapeHtml(projectImage) + '" alt="Loyiha preview rasmi">' +
+              '<span>Rasm tanlanmagan</span>' +
+            '</div>' +
+            '<div class="admin-preview-actions">' +
+              '<input id="pf-image" type="file" accept="image/jpeg,image/png,image/webp">' +
+              '<p class="hint">JPG, PNG yoki WebP. Rasm avtomatik siqiladi va 1200 × 900 px ichiga moslanadi.</p>' +
+              '<button class="icon-btn" type="button" id="pf-image-remove">Rasmni olib tashlash</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="admin-image-status" id="pf-image-status" role="status"></div>' +
+        '</div>' +
         '<div class="full" style="display:flex; gap:10px;">' +
           '<button class="btn btn-primary" id="pf-save">Saqlash</button>' +
           '<button class="btn btn-ghost" id="pf-cancel">Bekor qilish</button>' +
         '</div>' +
       '</div>';
+    var imageInput = document.getElementById("pf-image");
+    var imageFrame = document.getElementById("pf-image-preview");
+    var imageElement = imageFrame.querySelector("img");
+    var imageStatus = document.getElementById("pf-image-status");
+    var saveButton = document.getElementById("pf-save");
+
+    function refreshProjectImage(){
+      imageElement.src = projectImage || "";
+      imageFrame.classList.toggle("is-empty", !projectImage);
+      document.getElementById("pf-image-remove").disabled = !projectImage;
+    }
+
+    imageInput.addEventListener("change", function(){
+      var file = imageInput.files && imageInput.files[0];
+      if(!file) return;
+      imageStatus.textContent = "Rasm tayyorlanmoqda…";
+      saveButton.disabled = true;
+      prepareProjectImage(file).then(function(result){
+        projectImage = result;
+        refreshProjectImage();
+        imageStatus.textContent = "Preview tayyor. Saqlash tugmasini bosing.";
+      }).catch(function(error){
+        imageInput.value = "";
+        imageStatus.textContent = error.message;
+      }).then(function(){
+        saveButton.disabled = false;
+      });
+    });
+
+    document.getElementById("pf-image-remove").addEventListener("click", function(){
+      projectImage = "";
+      imageInput.value = "";
+      imageStatus.textContent = "Preview rasmi olib tashlandi. O'zgarishni saqlang.";
+      refreshProjectImage();
+    });
+
+    refreshProjectImage();
     document.getElementById("pf-cancel").addEventListener("click", function(){ wrap.innerHTML = ""; });
-    document.getElementById("pf-save").addEventListener("click", function(){
+    saveButton.addEventListener("click", function(){
       var name = document.getElementById("pf-name").value.trim();
       var url = document.getElementById("pf-url").value.trim();
       if(!name || !url){ alert("Nomi va havola majburiy."); return; }
@@ -390,7 +488,8 @@
             name: name, url: url,
             category: document.getElementById("pf-category").value,
             status: document.getElementById("pf-status").value,
-            desc: document.getElementById("pf-desc").value.trim()
+            desc: document.getElementById("pf-desc").value.trim(),
+            image: projectImage
           });
         });
       } else {
@@ -399,10 +498,14 @@
           name: name, url: url,
           category: document.getElementById("pf-category").value,
           status: document.getElementById("pf-status").value,
-          desc: document.getElementById("pf-desc").value.trim()
+          desc: document.getElementById("pf-desc").value.trim(),
+          image: projectImage
         });
       }
-      saveProjects(list);
+      if(!saveProjects(list)){
+        imageStatus.textContent = "Saqlash uchun brauzer xotirasi yetarli emas. Kichikroq rasm tanlang.";
+        return;
+      }
       wrap.innerHTML = "";
       renderAdminProjects();
       renderProjects();
