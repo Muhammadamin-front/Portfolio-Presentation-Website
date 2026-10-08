@@ -241,12 +241,34 @@
       message: form.message.value.trim(),
       date: new Date().toISOString()
     };
-    var list = loadMessages();
-    list.unshift(msg);
-    saveMessages(list);
-    document.getElementById("cfToast").textContent = "Xabaringiz uchun rahmat! Tez orada bog'lanaman.";
-    form.reset();
-    setTimeout(function(){ document.getElementById("cfToast").textContent = ""; }, 4500);
+    var toast = document.getElementById("cfToast");
+    var btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    toast.textContent = "Yuborilmoqda...";
+    fetch("/api/order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: msg.name,
+        contact: msg.contact,
+        service: msg.service,
+        message: msg.message,
+        website_url: form.website_url.value
+      })
+    })
+      .then(function(r){ return r.json().catch(function(){ return {}; }).then(function(d){ if(!r.ok || !d.ok) throw new Error(d.error); }); })
+      .then(function(){
+        var list = loadMessages();
+        list.unshift(msg);
+        saveMessages(list);
+        toast.textContent = "Xabaringiz uchun rahmat! Tez orada bog'lanaman.";
+        form.reset();
+        setTimeout(function(){ toast.textContent = ""; }, 4500);
+      })
+      .catch(function(){
+        toast.textContent = "Xabar yuborilmadi. Iltimos, Telegram orqali yozing yoki qayta urinib ko'ring.";
+      })
+      .then(function(){ btn.disabled = false; });
   });
 
   document.getElementById("year").textContent = new Date().getFullYear();
